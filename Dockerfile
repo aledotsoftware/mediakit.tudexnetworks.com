@@ -5,6 +5,8 @@ FROM nginx:1.27-alpine
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY index.html /usr/share/nginx/html/
+COPY privacy-policy/ /usr/share/nginx/html/privacy-policy/
+COPY terms-and-conditions/ /usr/share/nginx/html/terms-and-conditions/
 COPY styles/ /usr/share/nginx/html/styles/
 COPY scripts/ /usr/share/nginx/html/scripts/
 
