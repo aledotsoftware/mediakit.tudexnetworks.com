@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^privacy-policy/?$ privacy-policy.html [L]
+    RewriteRule ^terms-and-conditions/?$ terms-and-conditions.html [L]
+</IfModule>

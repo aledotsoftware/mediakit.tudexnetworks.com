@@ -1090,11 +1090,24 @@ img {
     color: var(--color-text-secondary);
     border-radius: var(--radius-md);
     transition: var(--transition-fast);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgba(255, 255, 255, 0.22);
 }
 
 .nav-link:hover {
     color: var(--color-text-primary);
     background: var(--color-bg-card);
+    text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+footer .nav-link {
+    color: var(--color-text-primary);
+    text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+
+footer .nav-link:hover {
+    text-decoration-color: var(--color-info);
 }
 
 .nav-link.active {

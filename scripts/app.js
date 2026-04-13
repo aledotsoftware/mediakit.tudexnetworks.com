@@ -93,6 +93,22 @@
     }
 
     /**
+     * Actualiza el contador del hero con datos externos (p. ej. métricas agregadas).
+     */
+    window.TudexStats = {
+        setHeroTraffic(value) {
+            const el = document.getElementById('hero-traffic-value');
+            if (!el || value == null) return;
+            const n = Math.floor(Number(value));
+            el.dataset.target = String(n);
+            el.textContent = '0';
+            if (n <= 0) return;
+            const animator = new CounterAnimator(el);
+            animator.animate();
+        }
+    };
+
+    /**
      * Smooth scroll for anchor links
      */
     function initSmoothScroll() {
@@ -161,10 +177,11 @@
         initHeaderScroll();
     }
 
+    window.CounterAnimator = CounterAnimator;
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
-
 })();

@@ -1,0 +1,5 @@
+# Netlify / Cloudflare Pages: URLs limpias → archivos en la raíz
+/privacy-policy    /privacy-policy.html    200
+/privacy-policy/   /privacy-policy.html    200
+/terms-and-conditions    /terms-and-conditions.html    200
+/terms-and-conditions/   /terms-and-conditions.html    200

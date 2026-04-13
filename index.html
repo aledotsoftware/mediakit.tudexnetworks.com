@@ -30,31 +30,41 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 
-<body>
+<body data-page="home">
     <!-- Background Effects -->
     <div class="glow-bg glow-1"></div>
     <div class="glow-bg glow-2"></div>
 
     <!-- Header / Navigation -->
     <header id="header" class="container section-sm">
-        <nav class="flex justify-between items-center">
-            <a href="./" class="logo flex items-center gap-2">
-                <span class="text-xl font-bold">Tudex<span class="text-gradient">Networks</span></span>
-            </a>
+        <nav class="flex flex-col gap-sm">
+            <div class="flex justify-between items-center w-full gap-sm flex-wrap">
+                <a href="./" class="logo flex items-center gap-2">
+                    <span class="text-xl font-bold">Tudex<span class="text-gradient">Networks</span></span>
+                </a>
 
-            <div class="nav hide-mobile">
-                <a href="#divisiones" class="nav-link">Divisiones</a>
-                <a href="#games" class="nav-link">Games</a>
-                <a href="#neural" class="nav-link">Neural Lab</a>
-                <a href="#media" class="nav-link">Media</a>
-                <a href="privacy-policy.html" class="nav-link">Privacidad</a>
-                <a href="terms-and-conditions.html" class="nav-link">Términos</a>
+                <div class="nav hide-mobile">
+                    <a href="#divisiones" class="nav-link">Divisiones</a>
+                    <a href="#games" class="nav-link">Games</a>
+                    <a href="#neural" class="nav-link">Neural Lab</a>
+                    <a href="#media" class="nav-link">Media</a>
+                    <a href="privacy-policy.html" class="nav-link">Privacidad</a>
+                    <a href="terms-and-conditions.html" class="nav-link">Términos</a>
+                    <a href="estadisticas.html" class="nav-link">Actividad</a>
+                </div>
+
+                <div class="flex items-center gap-sm">
+                    <a href="#contacto" class="btn btn-primary">Contactar</a>
+                </div>
             </div>
 
-            <div class="flex items-center gap-sm flex-wrap justify-end">
-                <a href="privacy-policy.html" class="nav-link text-sm hide-desktop">Privacidad</a>
-                <a href="terms-and-conditions.html" class="nav-link text-sm hide-desktop">Términos</a>
-                <a href="#contacto" class="btn btn-primary">Contactar</a>
+            <div class="hide-desktop flex flex-wrap justify-center items-center gap-md w-full pt-sm"
+                style="border-top: 1px solid var(--border-color);">
+                <a href="privacy-policy.html" class="nav-link text-sm">Privacidad</a>
+                <span class="text-muted" aria-hidden="true">·</span>
+                <a href="terms-and-conditions.html" class="nav-link text-sm">Términos</a>
+                <span class="text-muted" aria-hidden="true">·</span>
+                <a href="estadisticas.html" class="nav-link text-sm">Actividad</a>
             </div>
         </nav>
     </header>
@@ -93,18 +103,18 @@
                     <div class="stat-label">Jugadores</div>
                 </div>
                 <div class="glass-card text-center">
-                    <i class="ph ph-globe text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" data-target="2690000">0</div>
-                    <div class="stat-label">Visitas/Mes</div>
+                    <i class="ph ph-pulse text-3xl text-muted mb-sm"></i>
+                    <div class="stat-value" id="hero-traffic-value">0</div>
+                    <div class="stat-label" id="hero-traffic-label">Solicitudes (período)</div>
                 </div>
                 <div class="glass-card text-center">
                     <i class="ph ph-browsers text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" data-target="25">0</div>
+                    <div class="stat-value" id="stat-hero-sites" data-target="25">0</div>
                     <div class="stat-label">Sitios Web</div>
                 </div>
                 <div class="glass-card text-center">
                     <i class="ph ph-globe-hemisphere-west text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" data-target="188">0</div>
+                    <div class="stat-value" id="stat-hero-countries" data-target="188">0</div>
                     <div class="stat-label">Países</div>
                 </div>
             </div>
@@ -472,19 +482,19 @@
         <div class="glass-card mb-xl">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-lg text-center">
                 <div class="stat">
-                    <div class="stat-value" data-target="16">0</div>
+                    <div class="stat-value" id="stat-media-portals" data-target="16">0</div>
                     <div class="stat-label">Portales</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" data-target="2690000">0</div>
+                    <div class="stat-value" id="stat-media-visits" data-target="2700000">0</div>
                     <div class="stat-label">Visitas/Mes</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value" data-target="9990000">0</div>
-                    <div class="stat-label">Requests/Mes</div>
+                    <div class="stat-value" id="stat-media-requests" data-target="9990000">0</div>
+                    <div class="stat-label">Requests (período)</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">99.98%</div>
+                    <div class="stat-value">99.9%</div>
                     <div class="stat-label">Encriptado</div>
                 </div>
             </div>
@@ -563,6 +573,7 @@
             <div class="nav flex-wrap justify-center">
                 <a href="privacy-policy.html" class="nav-link text-sm">Privacidad</a>
                 <a href="terms-and-conditions.html" class="nav-link text-sm">Términos</a>
+                <a href="estadisticas.html" class="nav-link text-sm">Actividad</a>
                 <a href="https://play.google.com/store/apps/developer?id=Tudex+Networks" target="_blank"
                     class="nav-link text-sm">
                     Google Play
@@ -579,6 +590,7 @@
 
     <!-- Scripts -->
     <script src="scripts/app.js"></script>
+    <script src="scripts/traffic-stats.js"></script>
 </body>
 
 </html>

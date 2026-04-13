@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad de red | Tudex Networks</title>
+    <meta name="description" content="Vista resumida de solicitudes atendidas en la red de propiedades digitales.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>T</text></svg>">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        .stats-wrap {
+            max-width: 52rem;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .chart-card h2 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-md);
+        }
+
+        .chart-meta {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            height: 280px;
+        }
+
+        .chart-canvas-wrap.chart-tall {
+            height: min(70vh, 520px);
+        }
+
+        .err {
+            color: var(--color-error);
+            font-size: var(--text-sm);
+        }
+    </style>
+</head>
+
+<body data-page="stats">
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+
+    <header id="header" class="container section-sm">
+        <nav class="flex flex-col gap-sm">
+            <div class="flex justify-between items-center w-full gap-sm flex-wrap">
+                <a href="./" class="logo flex items-center gap-2">
+                    <span class="text-xl font-bold">Tudex<span class="text-gradient">Networks</span></span>
+                </a>
+                <div class="nav hide-mobile">
+                    <a href="./" class="nav-link">Inicio</a>
+                    <a href="./#contacto" class="nav-link">Contacto</a>
+                </div>
+                <div class="flex items-center gap-sm">
+                    <a href="./" class="btn btn-outline">
+                        <i class="ph ph-arrow-left"></i>
+                        Volver
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container section stats-wrap">
+        <header class="mb-xl">
+            <span class="badge mb-sm">Cloudflare Network</span>
+            <h1>Actividad de Red</h1>
+            <p class="text-secondary text-lg">Resumen de solicitudes atendidas en nuestros puntos de presencia.</p>
+            <p class="chart-meta mt-sm" id="chart-updated" hidden></p>
+        </header>
+
+        <p id="stats-error" class="err mb-md" hidden></p>
+
+        <!-- Metrics Overview Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-md mb-xl" id="metrics-grid" hidden>
+            <div class="glass-card text-center p-md">
+                <div class="text-muted text-xs mb-1 uppercase tracking-wider">Total Período</div>
+                <div class="text-2xl font-bold" id="m-total">—</div>
+                <div class="text-muted text-xs mt-1" id="m-period">—</div>
+            </div>
+            <div class="glass-card text-center p-md">
+                <div class="text-muted text-xs mb-1 uppercase tracking-wider">Promedio Diario</div>
+                <div class="text-2xl font-bold" id="m-avg">—</div>
+                <div class="text-muted text-xs mt-1">Solicitudes / día</div>
+            </div>
+            <div class="glass-card text-center p-md">
+                <div class="text-muted text-xs mb-1 uppercase tracking-wider">Pico de Tráfico</div>
+                <div class="text-2xl font-bold" id="m-peak">—</div>
+                <div class="text-muted text-xs mt-1" id="m-peak-date">—</div>
+            </div>
+            <div class="glass-card text-center p-md">
+                <div class="text-muted text-xs mb-1 uppercase tracking-wider">Sitio Principal</div>
+                <div class="text-xl font-bold text-gradient" id="m-top-site"
+                    style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">—</div>
+                <div class="text-muted text-xs mt-1" id="m-top-site-requests">—</div>
+            </div>
+        </div>
+
+        <div class="chart-card" id="card-timeline" hidden>
+            <div class="flex justify-between items-start mb-md">
+                <div>
+                    <h2>Tendencia diaria</h2>
+                    <p class="text-secondary text-sm">Total de solicitudes en todos los puntos de presencia.</p>
+                </div>
+                <div class="badge badge-primary" id="badge-total-requests">0 Solicitudes</div>
+            </div>
+            <div class="chart-canvas-wrap">
+                <canvas id="chartTimeline" aria-label="Gráfico de tendencia diaria"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-card" id="card-sites" hidden>
+            <div class="flex justify-between items-start mb-md">
+                <div>
+                    <h2>Tráfico por Sitio</h2>
+                    <p class="text-secondary text-sm">Distribución por dominio en el período actual.</p>
+                </div>
+                <span class="badge" id="badge-sites-count">0 Sitios</span>
+            </div>
+            <div class="chart-canvas-wrap chart-tall">
+                <canvas id="chartSites" aria-label="Gráfico por sitio"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container section-sm" style="border-top: 1px solid var(--border-color);">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-md">
+            <div class="text-sm text-muted">© 2026 Tudex Networks</div>
+            <div class="nav flex-wrap justify-center">
+                <a href="privacy-policy.html" class="nav-link text-sm">Privacidad</a>
+                <a href="terms-and-conditions.html" class="nav-link text-sm">Términos</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/traffic-stats.js"></script>
+    <script>
+        (function () {
+            var chartLine;
+            var chartBar;
+
+            function fmt(n) {
+                if (n == null) return '—';
+                return Number(n).toLocaleString('es-AR');
+            }
+
+            function fmtShort(n) {
+                if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+                if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+                return n;
+            }
+
+            function shortLabel(s, max) {
+                max = max || 28;
+                if (!s) return '';
+                return s.length > max ? s.slice(0, max - 1) + '…' : s;
+            }
+
+            function applyTheme() {
+                if (typeof Chart === 'undefined') return;
+                Chart.defaults.color = '#a3a3a3';
+                Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.08)';
+                Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+            }
+
+            function fillMetrics(payload) {
+                var sum = payload.summary;
+                var tl = payload.timeline || [];
+                var sites = payload.bySite || [];
+
+                document.getElementById('m-total').textContent = fmtShort(sum.totalRequests);
+                document.getElementById('m-period').textContent = 'Últimos ' + sum.windowDays + ' días';
+
+                var avg = Math.round(sum.totalRequests / tl.length);
+                document.getElementById('m-avg').textContent = fmtShort(avg);
+
+                var peak = tl.reduce(function (p, c) { return (c.requests > (p.requests || 0)) ? c : p; }, {});
+                document.getElementById('m-peak').textContent = fmtShort(peak.requests);
+                document.getElementById('m-peak-date').textContent = peak.date;
+
+                if (sites.length) {
+                    var top = sites[0];
+                    document.getElementById('m-top-site').textContent = top.name;
+                    document.getElementById('m-top-site-requests').textContent = fmtShort(top.requests) + ' solicitudes';
+                }
+
+                document.getElementById('badge-total-requests').textContent = fmt(sum.totalRequests);
+                document.getElementById('badge-sites-count').textContent = sum.sitesCount + ' Sitios Activos';
+
+                document.getElementById('metrics-grid').hidden = false;
+            }
+
+            function buildCharts(payload) {
+                if (!payload || payload.error || !payload.timeline || !payload.timeline.length) return;
+
+                document.getElementById('card-timeline').hidden = false;
+                document.getElementById('card-sites').hidden = false;
+
+                fillMetrics(payload);
+
+                var tl = payload.timeline;
+                var labels = tl.map(function (r) {
+                    var p = (r.date || '').split('-');
+                    return p.length === 3 ? p[2] + '/' + p[1] : (r.date || '');
+                });
+                var data = tl.map(function (r) { return r.requests || 0; });
+
+                var ctx = document.getElementById('chartTimeline').getContext('2d');
+                var grad = ctx.createLinearGradient(0, 0, 0, 300);
+                grad.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                if (chartLine) chartLine.destroy();
+                chartLine = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Solicitudes',
+                            data: data,
+                            borderColor: '#ffffff',
+                            backgroundColor: grad,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHitRadius: 10,
+                            pointHoverRadius: 4,
+                            pointHoverBackgroundColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { intersect: false, mode: 'index' },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#000',
+                                borderColor: 'rgba(255,255,255,0.1)',
+                                borderWidth: 1,
+                                padding: 12,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function (c) { return fmt(c.parsed.y) + ' solicitudes'; }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                                ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 7 }
+                            },
+                            y: {
+                                beginAtZero: false,
+                                grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                                ticks: {
+                                    callback: function (v) { return fmtShort(v); }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                var sites = (payload.bySite || []).slice(0, 20);
+                var barLabels = sites.map(function (s) { return shortLabel(s.name); });
+                var barData = sites.map(function (s) { return s.requests || 0; });
+
+                var ctxB = document.getElementById('chartSites').getContext('2d');
+                if (chartBar) chartBar.destroy();
+                chartBar = new Chart(ctxB, {
+                    type: 'bar',
+                    data: {
+                        labels: barLabels,
+                        datasets: [{
+                            label: 'Solicitudes',
+                            data: barData,
+                            backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            hoverBackgroundColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#000',
+                                borderColor: 'rgba(255,255,255,0.1)',
+                                borderWidth: 1,
+                                padding: 12,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function (c) {
+                                        var val = c.parsed.x;
+                                        var pct = ((val / payload.summary.totalRequests) * 100).toFixed(1);
+                                        return fmt(val) + ' (' + pct + '%)';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+                                ticks: {
+                                    callback: function (v) { return fmtShort(v); }
+                                }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 10 }, color: '#a3a3a3' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function onPayload(payload) {
+                var errEl = document.getElementById('stats-error');
+                var meta = document.getElementById('chart-updated');
+
+                if (!payload || payload.error || !payload.summary) {
+                    errEl.hidden = false;
+                    errEl.textContent = 'No hay datos para mostrar en este momento.';
+                    return;
+                }
+
+                if (!payload.timeline || !payload.timeline.length) {
+                    errEl.hidden = false;
+                    errEl.textContent = 'Sin actividad registrada en el período.';
+                    return;
+                }
+
+                errEl.hidden = true;
+
+                if (payload.updatedAt) {
+                    meta.hidden = false;
+                    meta.textContent = 'Actualizado: ' + new Date(payload.updatedAt).toLocaleString('es-AR');
+                }
+
+                buildCharts(payload);
+            }
+
+            function init() {
+                applyTheme();
+
+                // Check if already loaded
+                if (window.TudexTraffic && window.TudexTraffic.getPayload) {
+                    var p = window.TudexTraffic.getPayload();
+                    if (p) {
+                        onPayload(p);
+                        return;
+                    }
+                }
+
+                window.addEventListener('tudextraffic', function (ev) {
+                    onPayload(ev.detail);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+
+</html>

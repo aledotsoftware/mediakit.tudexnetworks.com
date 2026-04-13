@@ -3,4 +3,20 @@ services:
     build: .
     ports:
       - "8080:80"
+    volumes:
+      - ./traffic:/usr/share/nginx/html/traffic:ro
+    depends_on:
+      - stats-updater
+    restart: unless-stopped
+
+  stats-updater:
+    build: ./stats-updater
+    environment:
+      CF_API_TOKEN: ${CF_API_TOKEN:-}
+      CF_ACCOUNT_ID: ${CF_ACCOUNT_ID:-}
+      OUTPUT_PATH: /data/stats.json
+      ZONE_DAYS: ${ZONE_DAYS:-14}
+      UPDATE_INTERVAL_MS: ${UPDATE_INTERVAL_MS:-86400000}
+    volumes:
+      - ./traffic:/data
     restart: unless-stopped
