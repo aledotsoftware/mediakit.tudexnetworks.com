@@ -19,6 +19,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tudexnetworks.com">
 
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tudexnetworks">
+    <meta name="twitter:title" content="Tudex Networks | Tecnología que Conecta">
+    <meta name="twitter:description" content="Empresa de tecnología especializada en gaming, IA y medios digitales.">
+    <meta name="twitter:image" content="https://tudexnetworks.com/assets/images/og-image.png">
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>T</text></svg>">
@@ -37,38 +44,37 @@
 
     <!-- Header / Navigation -->
     <header id="header" class="container section-sm">
-        <nav class="flex flex-col gap-sm">
+        <nav class="flex flex-col gap-sm" aria-label="Navegación principal">
             <div class="flex justify-between items-center w-full gap-sm flex-wrap">
-                <a href="./" class="logo flex items-center gap-2">
+                <a href="./" class="logo flex items-center gap-2" aria-label="Tudex Networks Home">
                     <span class="text-xl font-bold">Tudex<span class="text-gradient">Networks</span></span>
                 </a>
 
                 <div class="nav hide-mobile">
-                    <a href="#divisiones" class="nav-link">Divisiones</a>
-                    <a href="#games" class="nav-link">Games</a>
-                    <a href="#neural" class="nav-link">Neural Lab</a>
-                    <a href="#media" class="nav-link">Media</a>
-                    <a href="privacy-policy.html" class="nav-link">Privacidad</a>
-                    <a href="terms-and-conditions.html" class="nav-link">Términos</a>
+                    <a href="#divisiones" class="nav-link" data-nav-link>Divisiones</a>
+                    <a href="#games" class="nav-link" data-nav-link>Games</a>
+                    <a href="#neural" class="nav-link" data-nav-link>Neural Lab</a>
+                    <a href="#media" class="nav-link" data-nav-link>Media</a>
                     <a href="estadisticas.html" class="nav-link">Actividad</a>
                 </div>
 
                 <div class="flex items-center gap-sm">
-                    <a href="#contacto" class="btn btn-primary">Contactar</a>
+                    <a href="#contacto" class="btn btn-ghost">Contactar</a>
                 </div>
             </div>
 
             <div class="hide-desktop flex flex-wrap justify-center items-center gap-md w-full pt-sm"
                 style="border-top: 1px solid var(--border-color);">
-                <a href="privacy-policy.html" class="nav-link text-sm">Privacidad</a>
+                <a href="#divisiones" class="nav-link text-sm">Divisiones</a>
                 <span class="text-muted" aria-hidden="true">·</span>
-                <a href="terms-and-conditions.html" class="nav-link text-sm">Términos</a>
+                <a href="#games" class="nav-link text-sm">Games</a>
                 <span class="text-muted" aria-hidden="true">·</span>
                 <a href="estadisticas.html" class="nav-link text-sm">Actividad</a>
             </div>
         </nav>
     </header>
 
+    <main id="main-content">
     <!-- Hero Section -->
     <section class="container section">
         <div class="grid md:grid-cols-2 gap-xl items-center">
@@ -98,24 +104,24 @@
             <!-- Hero Stats -->
             <div class="grid grid-cols-2 gap-md">
                 <div class="glass-card text-center">
-                    <i class="ph ph-game-controller text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" data-target="540000">0</div>
-                    <div class="stat-label">Jugadores</div>
+                    <i class="ph ph-game-controller text-3xl text-muted mb-sm" aria-label="Icono de mando de juegos"></i>
+                    <div class="stat-value text-gradient font-bold" data-target="540000">0</div>
+                    <div class="stat-label text-xs">Jugadores</div>
                 </div>
                 <div class="glass-card text-center">
-                    <i class="ph ph-pulse text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" id="hero-traffic-value">0</div>
-                    <div class="stat-label" id="hero-traffic-label">Solicitudes (período)</div>
+                    <i class="ph ph-pulse text-3xl text-muted mb-sm" aria-label="Icono de pulso de actividad"></i>
+                    <div class="stat-value text-gradient font-bold" id="hero-traffic-value">0</div>
+                    <div class="stat-label text-xs" id="hero-traffic-label">Solicitudes (período)</div>
                 </div>
                 <div class="glass-card text-center">
-                    <i class="ph ph-browsers text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" id="stat-hero-sites" data-target="25">0</div>
-                    <div class="stat-label">Sitios Web</div>
+                    <i class="ph ph-browsers text-3xl text-muted mb-sm" aria-label="Icono de navegadores web"></i>
+                    <div class="stat-value text-gradient font-bold" id="stat-hero-sites" data-target="25">0</div>
+                    <div class="stat-label text-xs">Sitios Web</div>
                 </div>
                 <div class="glass-card text-center">
-                    <i class="ph ph-globe-hemisphere-west text-3xl text-muted mb-sm"></i>
-                    <div class="stat-value" id="stat-hero-countries" data-target="188">0</div>
-                    <div class="stat-label">Países</div>
+                    <i class="ph ph-globe-hemisphere-west text-3xl text-muted mb-sm" aria-label="Icono de globo terráqueo"></i>
+                    <div class="stat-value text-gradient font-bold" id="stat-hero-countries" data-target="188">0</div>
+                    <div class="stat-label text-xs">Países</div>
                 </div>
             </div>
         </div>
@@ -132,9 +138,9 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-lg">
-            <a href="#games" class="glass-card card-interactive text-center">
+            <a href="#games" class="glass-card card-interactive text-center" aria-label="Explorar división de Tudex Games">
                 <div class="mb-md">
-                    <i class="ph-fill ph-game-controller text-4xl"></i>
+                    <i class="ph-fill ph-game-controller text-4xl" aria-hidden="true"></i>
                 </div>
                 <h4 class="mb-sm">Tudex Games</h4>
                 <p class="text-secondary text-sm mb-md">
@@ -143,9 +149,9 @@
                 <span class="badge badge-primary">10+ Juegos</span>
             </a>
 
-            <a href="#neural" class="glass-card card-interactive text-center">
+            <a href="#neural" class="glass-card card-interactive text-center" aria-label="Explorar división de Neural Lab">
                 <div class="mb-md">
-                    <i class="ph-fill ph-brain text-4xl"></i>
+                    <i class="ph-fill ph-brain text-4xl" aria-hidden="true"></i>
                 </div>
                 <h4 class="mb-sm">Neural Lab</h4>
                 <p class="text-secondary text-sm mb-md">
@@ -154,9 +160,9 @@
                 <span class="badge badge-primary">4 APIs</span>
             </a>
 
-            <a href="#media" class="glass-card card-interactive text-center">
+            <a href="#media" class="glass-card card-interactive text-center" aria-label="Explorar división de Digital Media">
                 <div class="mb-md">
-                    <i class="ph-fill ph-newspaper text-4xl"></i>
+                    <i class="ph-fill ph-newspaper text-4xl" aria-hidden="true"></i>
                 </div>
                 <h4 class="mb-sm">Digital Media</h4>
                 <p class="text-secondary text-sm mb-md">
@@ -179,10 +185,10 @@
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-md">
             <!-- Game 1 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-puzzle-piece text-2xl"></i>
+                        <i class="ph ph-puzzle-piece text-2xl" aria-label="Icono de puzzle"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">Block Puzzle Empire</h5>
@@ -203,10 +209,10 @@
             </div>
 
             <!-- Game 2 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-person-simple-run text-2xl"></i>
+                        <i class="ph ph-person-simple-run text-2xl" aria-label="Icono de persona corriendo"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">Ninja Leap</h5>
@@ -227,10 +233,10 @@
             </div>
 
             <!-- Game 3 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-circles-three-plus text-2xl"></i>
+                        <i class="ph ph-circles-three-plus text-2xl" aria-label="Icono de círculos"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">Bubble Pets Shooter</h5>
@@ -251,10 +257,10 @@
             </div>
 
             <!-- Game 4 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-rocket text-2xl"></i>
+                        <i class="ph ph-rocket text-2xl" aria-label="Icono de cohete"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">Asteroid</h5>
@@ -275,10 +281,10 @@
             </div>
 
             <!-- Game 5 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-square-split-horizontal text-2xl"></i>
+                        <i class="ph ph-square-split-horizontal text-2xl" aria-label="Icono de ladrillos"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">Brick Breaker</h5>
@@ -299,10 +305,10 @@
             </div>
 
             <!-- Game 6 -->
-            <div class="card card-interactive">
+            <div class="card card-interactive reveal">
                 <div class="flex items-center gap-md mb-md">
                     <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                        <i class="ph-fill ph-brain text-2xl"></i>
+                        <i class="ph ph-brain text-2xl" aria-label="Icono de cerebro"></i>
                     </div>
                     <div>
                         <h5 class="mb-0">True Color</h5>
@@ -349,7 +355,7 @@
                 <div class="card-header flex justify-between items-start">
                     <div class="flex items-center gap-md">
                         <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                            <i class="ph-fill ph-translate text-2xl"></i>
+                            <i class="ph ph-translate text-2xl" aria-label="Icono de traducción"></i>
                         </div>
                         <div>
                             <h5 class="mb-0">Translate Service</h5>
@@ -369,7 +375,7 @@
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <a href="https://rapidapi.com/tudexnetworks/api" target="_blank" class="btn btn-outline btn-sm">
+                    <a href="https://rapidapi.com/tudexnetworks/api" target="_blank" class="btn btn-outline btn-sm" aria-label="Ver documentación de Translate Service en RapidAPI">
                         <i class="ph ph-code"></i> Documentación API
                     </a>
                 </div>
@@ -380,7 +386,7 @@
                 <div class="card-header flex justify-between items-start">
                     <div class="flex items-center gap-md">
                         <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                            <i class="ph-fill ph-detective text-2xl"></i>
+                            <i class="ph ph-detective text-2xl" aria-label="Icono de detección de idioma"></i>
                         </div>
                         <div>
                             <h5 class="mb-0">Language Detect</h5>
@@ -400,18 +406,18 @@
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <a href="https://rapidapi.com/tudexnetworks/api" target="_blank" class="btn btn-outline btn-sm">
+                    <a href="https://rapidapi.com/tudexnetworks/api" target="_blank" class="btn btn-outline btn-sm" aria-label="Ver documentación de Language Detect en RapidAPI">
                         <i class="ph ph-code"></i> Documentación API
                     </a>
                 </div>
             </div>
 
             <!-- API 3 -->
-            <div class="card" style="opacity: 0.7;">
+            <div class="card" style="opacity: 0.5; filter: grayscale(1);">
                 <div class="card-header flex justify-between items-start">
                     <div class="flex items-center gap-md">
                         <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                            <i class="ph-fill ph-article text-2xl"></i>
+                            <i class="ph ph-article text-2xl" aria-label="Icono de artículos"></i>
                         </div>
                         <div>
                             <h5 class="mb-0">Article Classifier</h5>
@@ -437,11 +443,11 @@
             </div>
 
             <!-- API 4 -->
-            <div class="card" style="opacity: 0.7;">
+            <div class="card" style="opacity: 0.5; filter: grayscale(1);">
                 <div class="card-header flex justify-between items-start">
                     <div class="flex items-center gap-md">
                         <div class="avatar avatar-lg" style="background: var(--color-bg-card-hover);">
-                            <i class="ph-fill ph-shield-warning text-2xl"></i>
+                            <i class="ph ph-shield-warning text-2xl" aria-label="Icono de protección contra spam"></i>
                         </div>
                         <div>
                             <h5 class="mb-0">Spam Detect</h5>
@@ -501,37 +507,91 @@
         </div>
 
         <!-- Portal Links -->
-        <div class="flex flex-wrap gap-sm justify-center">
-            <a href="https://newsrpt.com" target="_blank" class="tag">newsrpt.com</a>
-            <a href="https://posadasinforma.com.ar" target="_blank" class="tag">posadasinforma.com.ar</a>
-            <a href="https://iguazuonline.com.ar" target="_blank" class="tag">iguazuonline.com.ar</a>
-            <a href="https://informar.com.ar" target="_blank" class="tag">informar.com.ar</a>
-            <a href="https://elinforme.com.ar" target="_blank" class="tag">elinforme.com.ar</a>
-            <a href="https://cordoba24.com.ar" target="_blank" class="tag">cordoba24.com.ar</a>
-            <a href="https://informepais.com.ar" target="_blank" class="tag">informepais.com.ar</a>
-            <a href="https://latrinchera.com.ar" target="_blank" class="tag">latrinchera.com.ar</a>
-            <a href="https://diariopais.com.ar" target="_blank" class="tag">diariopais.com.ar</a>
-            <a href="https://infosantafe.com.ar" target="_blank" class="tag">infosantafe.com.ar</a>
-            <a href="https://elrelator.com.ar" target="_blank" class="tag">elrelator.com.ar</a>
-            <a href="https://contrapunto.com.ar" target="_blank" class="tag">contrapunto.com.ar</a>
-            <a href="https://elsur.com.ar" target="_blank" class="tag">elsur.com.ar</a>
-            <a href="https://lostitulares.com.ar" target="_blank" class="tag">lostitulares.com.ar</a>
-            <a href="https://tecnotendencias.com.ar" target="_blank" class="tag">tecnotendencias.com.ar</a>
-            <a href="https://elobelisco.com.ar" target="_blank" class="tag">elobelisco.com.ar</a>
+        <div class="mb-lg">
+            <h5 class="text-center mb-md text-sm text-muted uppercase tracking-widest">Noticias & Actualidad</h5>
+            <div class="flex flex-wrap gap-sm justify-center">
+                <a href="https://newsrpt.com" target="_blank" class="tag" data-tooltip="Visitar newsrpt.com">newsrpt.com</a>
+                <a href="https://informar.com.ar" target="_blank" class="tag" data-tooltip="Visitar informar.com.ar">informar.com.ar</a>
+                <a href="https://elinforme.com.ar" target="_blank" class="tag" data-tooltip="Visitar elinforme.com.ar">elinforme.com.ar</a>
+                <a href="https://informepais.com.ar" target="_blank" class="tag" data-tooltip="Visitar informepais.com.ar">informepais.com.ar</a>
+                <a href="https://diariopais.com.ar" target="_blank" class="tag" data-tooltip="Visitar diariopais.com.ar">diariopais.com.ar</a>
+                <a href="https://elrelator.com.ar" target="_blank" class="tag" data-tooltip="Visitar elrelator.com.ar">elrelator.com.ar</a>
+                <a href="https://contrapunto.com.ar" target="_blank" class="tag" data-tooltip="Visitar contrapunto.com.ar">contrapunto.com.ar</a>
+                <a href="https://lostitulares.com.ar" target="_blank" class="tag" data-tooltip="Visitar lostitulares.com.ar">lostitulares.com.ar</a>
+            </div>
+        </div>
+
+        <div class="mb-lg">
+            <h5 class="text-center mb-md text-sm text-muted uppercase tracking-widest">Regional (Argentina)</h5>
+            <div class="flex flex-wrap gap-sm justify-center">
+                <a href="https://posadasinforma.com.ar" target="_blank" class="tag" data-tooltip="Visitar posadasinforma.com.ar">posadasinforma.com.ar</a>
+                <a href="https://iguazuonline.com.ar" target="_blank" class="tag" data-tooltip="Visitar iguazuonline.com.ar">iguazuonline.com.ar</a>
+                <a href="https://cordoba24.com.ar" target="_blank" class="tag" data-tooltip="Visitar cordoba24.com.ar">cordoba24.com.ar</a>
+                <a href="https://infosantafe.com.ar" target="_blank" class="tag" data-tooltip="Visitar infosantafe.com.ar">infosantafe.com.ar</a>
+                <a href="https://elsur.com.ar" target="_blank" class="tag" data-tooltip="Visitar elsur.com.ar">elsur.com.ar</a>
+                <a href="https://elobelisco.com.ar" target="_blank" class="tag" data-tooltip="Visitar elobelisco.com.ar">elobelisco.com.ar</a>
+                <a href="https://latrinchera.com.ar" target="_blank" class="tag" data-tooltip="Visitar latrinchera.com.ar">latrinchera.com.ar</a>
+            </div>
+        </div>
+
+        <div>
+            <h5 class="text-center mb-md text-sm text-muted uppercase tracking-widest">Tech & Tendencias</h5>
+            <div class="flex flex-wrap gap-sm justify-center">
+                <a href="https://tecnotendencias.com.ar" target="_blank" class="tag" data-tooltip="Visitar tecnotendencias.com.ar">tecnotendencias.com.ar</a>
+            </div>
         </div>
     </section>
 
     <!-- Social CTA -->
     <section class="container section-sm">
         <div class="glass-card text-center p-xl">
-            <i class="ph-fill ph-users-three text-4xl mb-md"></i>
+            <i class="ph-fill ph-users-three text-4xl mb-md" aria-hidden="true"></i>
             <h3>Tudex <span class="text-gradient">Social</span></h3>
             <p class="text-secondary mx-auto mb-lg" style="max-width: 500px;">
                 Nuestra red social para conectar personas de todo el mundo. Comparte momentos y mantente en contacto.
             </p>
-            <a href="https://tudexsocial.com" target="_blank" class="btn btn-primary">
+            <a href="https://tudexsocial.com" target="_blank" class="btn btn-primary" aria-label="Visitar Tudex Social (abre en nueva pestaña)">
                 Visitar Tudex Social
+                <i class="ph ph-arrow-square-out"></i>
             </a>
+        </div>
+    </section>
+
+    <!-- Brand Assets Section -->
+    <section id="assets" class="container section">
+        <div class="text-center mb-xl">
+            <span class="badge mb-sm">Recursos</span>
+            <h2>Brand <span class="text-gradient">Assets</span></h2>
+            <p class="text-secondary mx-auto" style="max-width: 600px;">
+                Descarga los activos oficiales de Tudex Networks para prensa y colaboraciones.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-lg max-width-md mx-auto" style="max-width: 800px;">
+            <div class="glass-card flex items-center gap-lg">
+                <div class="avatar avatar-xl" style="background: var(--color-bg-card-hover);">
+                    <i class="ph ph-file-zip text-3xl"></i>
+                </div>
+                <div>
+                    <h5 class="mb-sm">Press Kit Completo</h5>
+                    <p class="text-sm text-muted mb-md">Incluye manual de marca, logos en alta resolución y capturas.</p>
+                    <a href="#" class="btn btn-outline btn-sm">
+                        <i class="ph ph-download"></i> Descargar ZIP
+                    </a>
+                </div>
+            </div>
+            <div class="glass-card flex items-center gap-lg">
+                <div class="avatar avatar-xl" style="background: var(--color-bg-card-hover);">
+                    <i class="ph ph-vector text-3xl"></i>
+                </div>
+                <div>
+                    <h5 class="mb-sm">Logos Vectoriales</h5>
+                    <p class="text-sm text-muted mb-md">Logotipos oficiales en formato SVG y AI para escalado sin pérdida.</p>
+                    <a href="#" class="btn btn-outline btn-sm">
+                        <i class="ph ph-download"></i> Descargar SVG
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -547,22 +607,23 @@
 
         <div class="grid md:grid-cols-3 gap-lg">
             <div class="card text-center">
-                <i class="ph ph-envelope text-3xl text-muted mb-md"></i>
+                <i class="ph ph-envelope text-3xl text-muted mb-md" aria-hidden="true"></i>
                 <h5 class="mb-sm">Email</h5>
-                <a href="mailto:info@tudexnetworks.com" class="text-secondary">info@tudexnetworks.com</a>
+                <a href="mailto:info@tudexnetworks.com" class="text-secondary" aria-label="Enviar correo a info@tudexnetworks.com">info@tudexnetworks.com</a>
             </div>
             <div class="card text-center">
-                <i class="ph ph-globe text-3xl text-muted mb-md"></i>
+                <i class="ph ph-globe text-3xl text-muted mb-md" aria-hidden="true"></i>
                 <h5 class="mb-sm">Sitio Web</h5>
-                <a href="https://tudexnetworks.com" target="_blank" class="text-secondary">tudexnetworks.com</a>
+                <a href="https://tudexnetworks.com" target="_blank" class="text-secondary" aria-label="Visitar sitio web oficial tudexnetworks.com">tudexnetworks.com</a>
             </div>
             <div class="card text-center">
-                <i class="ph ph-map-pin text-3xl text-muted mb-md"></i>
+                <i class="ph ph-map-pin text-3xl text-muted mb-md" aria-hidden="true"></i>
                 <h5 class="mb-sm">Ubicación</h5>
                 <span class="text-secondary">Argentina</span>
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer class="container section-sm" style="border-top: 1px solid var(--border-color);">
