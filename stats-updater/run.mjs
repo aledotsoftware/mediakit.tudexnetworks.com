@@ -18,7 +18,7 @@ const GRAPHQL_URL = 'https://api.cloudflare.com/client/v4/graphql';
 const REST_BASE = 'https://api.cloudflare.com/client/v4';
 
 const QUERY = `
-query ZoneDaily($zoneTag: string!, $since: Date!) {
+query ZoneDaily($zoneTag: String!, $since: Date!) {
   viewer {
     zones(filter: { zoneTag: $zoneTag }) {
       httpRequests1dGroups(
@@ -138,33 +138,53 @@ function buildPublicPayload(rows, zoneDays) {
 async function runOnce() {
   const since = sinceDateString();
   const empty = {
-    updatedAt: null,
+    updatedAt: new Date().toISOString(),
     error: true,
+    message: 'Iniciando proceso...',
     summary: null,
     timeline: [],
     bySite: [],
   };
 
   if (!CF_API_TOKEN) {
+    console.error('[traffic-stats] Error: CF_API_TOKEN no configurado.');
+    empty.message = 'CF_API_TOKEN faltante';
     await writeAtomic(OUTPUT_PATH, JSON.stringify(empty, null, 2));
     return;
   }
 
   try {
+    console.log('[traffic-stats] Listando zonas...');
     const zoneList = await listAllZones();
+    console.log(`[traffic-stats] ${zoneList.length} zonas encontradas.`);
+    
+    if (zoneList.length === 0) {
+      empty.error = false;
+      empty.message = 'No se encontraron zonas en la cuenta.';
+      await writeAtomic(OUTPUT_PATH, JSON.stringify(empty, null, 2));
+      return;
+    }
+
     const results = await mapLimit(zoneList, 4, async (z) => {
-      const { daily } = await fetchZoneDaily(z.zoneTag, since);
-      return { name: z.name, daily };
+      try {
+        const { daily } = await fetchZoneDaily(z.zoneTag, since);
+        return { name: z.name, daily };
+      } catch (e) {
+        console.error(`[traffic-stats] Error en zona ${z.name}:`, e.message);
+        return { name: z.name, daily: [] };
+      }
     });
+
     const payload = buildPublicPayload(results, ZONE_DAYS);
     await writeAtomic(OUTPUT_PATH, JSON.stringify(payload, null, 2));
     console.log(
-      `[traffic-stats] ${OUTPUT_PATH} — sitios con datos: ${payload.summary.sitesCount}, total req: ${payload.summary.totalRequests}`
+      `[traffic-stats] ${OUTPUT_PATH} actualizado — sitios con datos: ${payload.summary.sitesCount}, total req: ${payload.summary.totalRequests}`
     );
   } catch (e) {
+    console.error('[traffic-stats] Error crítico:', e.message);
     empty.updatedAt = new Date().toISOString();
+    empty.message = e.message;
     await writeAtomic(OUTPUT_PATH, JSON.stringify(empty, null, 2));
-    console.error('[traffic-stats]', e);
   }
 }
 
