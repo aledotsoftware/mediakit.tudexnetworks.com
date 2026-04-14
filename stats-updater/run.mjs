@@ -9,7 +9,7 @@ import { dirname, join } from 'node:path';
 const CF_API_TOKEN = process.env.CF_API_TOKEN || '';
 const CF_ACCOUNT_ID = process.env.CF_ACCOUNT_ID || '';
 const OUTPUT_PATH = process.env.OUTPUT_PATH || join(process.cwd(), 'stats.json');
-const ZONE_DAYS = Math.min(31, Math.max(1, parseInt(process.env.ZONE_DAYS || '14', 10)));
+const ZONE_DAYS = Math.min(31, Math.max(1, parseInt(process.env.ZONE_DAYS || '30', 10)));
 const UPDATE_INTERVAL_MS = parseInt(
   process.env.UPDATE_INTERVAL_MS || String(24 * 60 * 60 * 1000),
   10

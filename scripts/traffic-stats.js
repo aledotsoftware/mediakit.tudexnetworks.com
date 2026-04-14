@@ -45,11 +45,12 @@
         if (!payload || !payload.summary || payload.error) return;
         var sum = payload.summary;
 
-        var label = document.getElementById('hero-traffic-label');
+        var labels = [document.getElementById('hero-traffic-label'), document.getElementById('media-requests-label')];
         var w = sum.windowDays || sum.daysWithData || '—';
-        if (label) {
-            label.textContent = 'Solicitudes · últimos ' + w + ' días';
-        }
+        var periodText = 'Solicitudes · últimos ' + w + ' días';
+        labels.forEach(function(l) {
+            if (l) l.textContent = periodText;
+        });
 
         if (window.TudexStats) {
             window.TudexStats.setHeroTraffic(sum.totalRequests);
