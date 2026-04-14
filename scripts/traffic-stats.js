@@ -14,22 +14,26 @@
         return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
 
-    function loadPayload() {
-        var day = localDay();
-        try {
-            var row = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-            if (row.day === day && row.payload && row.payload.summary && !row.payload.error) {
-                lastPayload = row.payload;
-                return Promise.resolve(row.payload);
-            }
-        } catch (e) { /* ignore */ }
+    function loadPayload(force) {
+        if (!force) {
+            var day = localDay();
+            try {
+                var row = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+                if (row.day === day && row.payload && row.payload.summary && !row.payload.error) {
+                    lastPayload = row.payload;
+                    return Promise.resolve(row.payload);
+                }
+            } catch (e) { /* ignore */ }
+        }
 
-        return fetch(URL, { cache: 'default' })
-            .then(function (r) { return r.ok ? r.json() : null; })
+        return fetch(URL, { cache: force ? 'no-cache' : 'default' })
+            .then(function (r) { return r.ok ? r.json() : { error: true }; })
+            .catch(function() { return { error: true }; })
             .then(function (payload) {
                 if (payload && payload.summary && !payload.error) {
                     lastPayload = payload;
                     try {
+                        var day = localDay();
                         localStorage.setItem(LS_KEY, JSON.stringify({ day: day, payload: payload }));
                     } catch (e) { /* ignore */ }
                 }
@@ -67,7 +71,16 @@
 
     window.TudexTraffic = {
         load: loadPayload,
-        getPayload: function () { return lastPayload; }
+        getPayload: function () { return lastPayload; },
+        refresh: function() {
+            return loadPayload(true).then(function(payload) {
+                if (document.body && document.body.getAttribute('data-page') === 'home') {
+                    applyHome(payload);
+                }
+                window.dispatchEvent(new CustomEvent('tudextraffic', { detail: payload }));
+                return payload;
+            });
+        }
     };
 
     function init() {

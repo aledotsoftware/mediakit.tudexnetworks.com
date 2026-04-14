@@ -7,6 +7,12 @@
     <title>Actividad de red | Tudex Networks</title>
     <meta name="description" content="Vista resumida de solicitudes atendidas en la red de propiedades digitales.">
     <meta name="robots" content="noindex, nofollow">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@tudexnetworks">
+    <meta name="twitter:title" content="Actividad de red | Tudex Networks">
+    <meta name="twitter:description" content="Vista resumida de solicitudes atendidas en la red de propiedades digitales.">
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>T</text></svg>">
     <link rel="stylesheet" href="styles/style.css">
@@ -60,9 +66,9 @@
     <div class="glow-bg glow-2"></div>
 
     <header id="header" class="container section-sm">
-        <nav class="flex flex-col gap-sm">
+        <nav class="flex flex-col gap-sm" aria-label="Navegación principal">
             <div class="flex justify-between items-center w-full gap-sm flex-wrap">
-                <a href="./" class="logo flex items-center gap-2">
+                <a href="./" class="logo flex items-center gap-2" aria-label="Volver al inicio de Tudex Networks">
                     <span class="text-xl font-bold">Tudex<span class="text-gradient">Networks</span></span>
                 </a>
                 <div class="nav hide-mobile">
@@ -79,7 +85,13 @@
         </nav>
     </header>
 
-    <main class="container section stats-wrap">
+    <main id="main-content" class="container section stats-wrap">
+        <nav class="flex items-center gap-2 mb-lg text-sm" aria-label="Breadcrumb">
+            <a href="./" class="text-muted hover:text-primary transition-colors">Inicio</a>
+            <i class="ph ph-caret-right text-xs text-muted"></i>
+            <span class="text-primary font-medium">Actividad</span>
+        </nav>
+
         <header class="mb-xl">
             <span class="badge mb-sm">Cloudflare Network</span>
             <h1>Actividad de Red</h1>
@@ -114,7 +126,7 @@
             </div>
         </div>
 
-        <div class="chart-card" id="card-timeline" hidden>
+        <div class="chart-card glass-card" id="card-timeline" hidden>
             <div class="flex justify-between items-start mb-md">
                 <div>
                     <h2>Tendencia diaria</h2>
@@ -124,10 +136,11 @@
             </div>
             <div class="chart-canvas-wrap">
                 <canvas id="chartTimeline" aria-label="Gráfico de tendencia diaria"></canvas>
+                <div id="table-timeline-container" class="visually-hidden"></div>
             </div>
         </div>
 
-        <div class="chart-card" id="card-sites" hidden>
+        <div class="chart-card glass-card" id="card-sites" hidden>
             <div class="flex justify-between items-start mb-md">
                 <div>
                     <h2>Tráfico por Sitio</h2>
@@ -137,6 +150,7 @@
             </div>
             <div class="chart-canvas-wrap chart-tall">
                 <canvas id="chartSites" aria-label="Gráfico por sitio"></canvas>
+                <div id="table-sites-container" class="visually-hidden"></div>
             </div>
         </div>
     </main>
@@ -216,6 +230,7 @@
                 document.getElementById('card-sites').hidden = false;
 
                 fillMetrics(payload);
+                buildAccessibilityTables(payload);
 
                 var tl = payload.timeline;
                 var labels = tl.map(function (r) {
@@ -339,13 +354,36 @@
                 });
             }
 
+            function buildAccessibilityTables(payload) {
+                var timelineContainer = document.getElementById('table-timeline-container');
+                var sitesContainer = document.getElementById('table-sites-container');
+
+                if (payload.timeline && payload.timeline.length) {
+                    var html = '<table class="visually-hidden"><caption>Tendencia diaria de solicitudes</caption><thead><tr><th>Fecha</th><th>Solicitudes</th></tr></thead><tbody>';
+                    payload.timeline.forEach(function(row) {
+                        html += '<tr><td>' + row.date + '</td><td>' + row.requests + '</td></tr>';
+                    });
+                    html += '</tbody></table>';
+                    timelineContainer.innerHTML = html;
+                }
+
+                if (payload.bySite && payload.bySite.length) {
+                    var html = '<table class="visually-hidden"><caption>Distribución de tráfico por sitio</caption><thead><tr><th>Sitio</th><th>Solicitudes</th></tr></thead><tbody>';
+                    payload.bySite.forEach(function(row) {
+                        html += '<tr><td>' + row.name + '</td><td>' + row.requests + '</td></tr>';
+                    });
+                    html += '</tbody></table>';
+                    sitesContainer.innerHTML = html;
+                }
+            }
+
             function onPayload(payload) {
                 var errEl = document.getElementById('stats-error');
                 var meta = document.getElementById('chart-updated');
 
                 if (!payload || payload.error || !payload.summary) {
                     errEl.hidden = false;
-                    errEl.textContent = 'No hay datos para mostrar en este momento.';
+                    errEl.innerHTML = '<div class="glass-card p-lg text-center"><i class="ph ph-warning-circle text-4xl text-error mb-md"></i><p>No hay datos para mostrar en este momento.</p><button onclick="TudexTraffic.refresh()" class="btn btn-outline btn-sm"><i class="ph ph-arrows-clockwise"></i> Reintentar</button></div>';
                     return;
                 }
 
@@ -368,17 +406,34 @@
             function init() {
                 applyTheme();
 
+                var initialized = false;
+                function checkAndInit(p) {
+                    if (initialized || !p) return;
+
+                    var timelineCard = document.getElementById('card-timeline');
+                    var observer = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting && !initialized) {
+                                initialized = true;
+                                onPayload(p);
+                                observer.disconnect();
+                            }
+                        });
+                    }, { threshold: 0.1 });
+
+                    observer.observe(timelineCard);
+                }
+
                 // Check if already loaded
                 if (window.TudexTraffic && window.TudexTraffic.getPayload) {
                     var p = window.TudexTraffic.getPayload();
                     if (p) {
-                        onPayload(p);
-                        return;
+                        checkAndInit(p);
                     }
                 }
 
                 window.addEventListener('tudextraffic', function (ev) {
-                    onPayload(ev.detail);
+                    checkAndInit(ev.detail);
                 });
             }
 
