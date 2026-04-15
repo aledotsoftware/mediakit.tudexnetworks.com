@@ -358,22 +358,52 @@
                 var timelineContainer = document.getElementById('table-timeline-container');
                 var sitesContainer = document.getElementById('table-sites-container');
 
-                if (payload.timeline && payload.timeline.length) {
-                    var html = '<table class="visually-hidden"><caption>Tendencia diaria de solicitudes</caption><thead><tr><th>Fecha</th><th>Solicitudes</th></tr></thead><tbody>';
-                    payload.timeline.forEach(function(row) {
-                        html += '<tr><td>' + row.date + '</td><td>' + row.requests + '</td></tr>';
+                function createTable(captionText, headers, rows) {
+                    var table = document.createElement('table');
+                    table.className = 'visually-hidden';
+
+                    var caption = document.createElement('caption');
+                    caption.textContent = captionText;
+                    table.appendChild(caption);
+
+                    var thead = document.createElement('thead');
+                    var headerRow = document.createElement('tr');
+                    headers.forEach(function(h) {
+                        var th = document.createElement('th');
+                        th.textContent = h;
+                        headerRow.appendChild(th);
                     });
-                    html += '</tbody></table>';
-                    timelineContainer.innerHTML = html;
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+
+                    var tbody = document.createElement('tbody');
+                    rows.forEach(function(rowData) {
+                        var tr = document.createElement('tr');
+                        rowData.forEach(function(cellData) {
+                            var td = document.createElement('td');
+                            td.textContent = cellData;
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+                    table.appendChild(tbody);
+                    return table;
+                }
+
+                if (payload.timeline && payload.timeline.length) {
+                    var rows = payload.timeline.map(function(row) {
+                        return [row.date, row.requests];
+                    });
+                    timelineContainer.innerHTML = '';
+                    timelineContainer.appendChild(createTable('Tendencia diaria de solicitudes', ['Fecha', 'Solicitudes'], rows));
                 }
 
                 if (payload.bySite && payload.bySite.length) {
-                    var html = '<table class="visually-hidden"><caption>Distribución de tráfico por sitio</caption><thead><tr><th>Sitio</th><th>Solicitudes</th></tr></thead><tbody>';
-                    payload.bySite.forEach(function(row) {
-                        html += '<tr><td>' + row.name + '</td><td>' + row.requests + '</td></tr>';
+                    var rows = payload.bySite.map(function(row) {
+                        return [row.name, row.requests];
                     });
-                    html += '</tbody></table>';
-                    sitesContainer.innerHTML = html;
+                    sitesContainer.innerHTML = '';
+                    sitesContainer.appendChild(createTable('Distribución de tráfico por sitio', ['Sitio', 'Solicitudes'], rows));
                 }
             }
 
@@ -383,7 +413,30 @@
 
                 if (!payload || payload.error || !payload.summary) {
                     errEl.hidden = false;
-                    errEl.innerHTML = '<div class="glass-card p-lg text-center"><i class="ph ph-warning-circle text-4xl text-error mb-md"></i><p>No hay datos para mostrar en este momento.</p><button onclick="TudexTraffic.refresh()" class="btn btn-outline btn-sm"><i class="ph ph-arrows-clockwise"></i> Reintentar</button></div>';
+                    errEl.innerHTML = '';
+
+                    var glassCard = document.createElement('div');
+                    glassCard.className = 'glass-card p-lg text-center';
+
+                    var icon = document.createElement('i');
+                    icon.className = 'ph ph-warning-circle text-4xl text-error mb-md';
+                    glassCard.appendChild(icon);
+
+                    var p = document.createElement('p');
+                    p.textContent = 'No hay datos para mostrar en este momento.';
+                    glassCard.appendChild(p);
+
+                    var btn = document.createElement('button');
+                    btn.className = 'btn btn-outline btn-sm';
+                    btn.onclick = function() { TudexTraffic.refresh(); };
+
+                    var btnIcon = document.createElement('i');
+                    btnIcon.className = 'ph ph-arrows-clockwise';
+                    btn.appendChild(btnIcon);
+                    btn.appendChild(document.createTextNode(' Reintentar'));
+
+                    glassCard.appendChild(btn);
+                    errEl.appendChild(glassCard);
                     return;
                 }
 
