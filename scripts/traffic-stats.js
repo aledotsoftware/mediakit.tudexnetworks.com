@@ -23,7 +23,9 @@
                     lastPayload = row.payload;
                     return Promise.resolve(row.payload);
                 }
-            } catch (e) { /* ignore */ }
+            } catch (e) {
+                console.warn('TudexTraffic: Failed to read from localStorage', e);
+            }
         }
 
         return fetch(URL, { cache: force ? 'no-cache' : 'default' })
@@ -35,7 +37,9 @@
                     try {
                         var day = localDay();
                         localStorage.setItem(LS_KEY, JSON.stringify({ day: day, payload: payload }));
-                    } catch (e) { /* ignore */ }
+                    } catch (e) {
+                        console.warn('TudexTraffic: Failed to write to localStorage', e);
+                    }
                 }
                 return payload;
             });
@@ -91,7 +95,9 @@
             }
             try {
                 window.dispatchEvent(new CustomEvent('tudextraffic', { detail: payload }));
-            } catch (e) { /* ignore */ }
+            } catch (e) {
+                console.error('TudexTraffic: Failed to dispatch event', e);
+            }
         });
     }
 
