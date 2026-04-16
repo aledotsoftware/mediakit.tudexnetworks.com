@@ -95,7 +95,7 @@ p {
 a {
     text-decoration: none;
     color: inherit;
-    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    transition: color var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), transform var(--transition-ui), opacity var(--transition-ui);
 }
 
 a:hover {
@@ -574,7 +574,7 @@ img {
     font-weight: var(--font-semibold);
     line-height: var(--leading-none);
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    transition: transform var(--transition-ui), background-color var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui), color var(--transition-ui);
     border: var(--border-width) solid transparent;
     outline: none;
     text-decoration: none;
@@ -691,7 +691,7 @@ img {
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--transition-ui), border-color var(--transition-ui), box-shadow var(--transition-ui);
 }
 
 .card:hover {
@@ -720,7 +720,7 @@ img {
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform var(--transition-md), border-color var(--transition-md), box-shadow var(--transition-md);
     position: relative;
     overflow: hidden;
 }
@@ -733,7 +733,7 @@ img {
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
-    transition: left 0.6s ease;
+    transition: left var(--transition-xl);
 }
 
 .glass-card:hover {
@@ -795,7 +795,7 @@ img {
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
     font-size: var(--text-base);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color var(--transition-ui), box-shadow var(--transition-ui);
 }
 
 .form-input::placeholder,
@@ -952,7 +952,7 @@ img {
     border-radius: var(--radius-full);
     background: var(--color-bg-card-hover);
     color: var(--color-text-secondary);
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color var(--transition-ui), color var(--transition-ui);
 }
 
 .tag:hover {
@@ -1102,7 +1102,7 @@ img {
     font-weight: var(--font-medium);
     color: var(--color-text-secondary);
     border-radius: var(--radius-md);
-    transition: color 0.2s ease, background-color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color var(--transition-ui), background-color var(--transition-ui), text-decoration-color var(--transition-ui);
     text-decoration: underline;
     text-underline-offset: 0.2em;
     text-decoration-color: rgba(255, 255, 255, 0.22);
@@ -1313,7 +1313,7 @@ footer .nav-link:hover {
     border: var(--border-width) solid var(--border-color);
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition-fast);
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
     z-index: var(--z-tooltip);
 }
 
