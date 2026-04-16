@@ -1,0 +1,7 @@
+127.0.0.1 - - [15/Apr/2026 18:54:13] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:13] "GET /styles/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:13] "GET /scripts/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:13] "GET /scripts/traffic-stats.js HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:13] "GET /styles/variables.css HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:15] "GET /traffic/stats.json HTTP/1.1" 200 -
+127.0.0.1 - - [15/Apr/2026 18:54:17] "GET /estadisticas.html HTTP/1.1" 200 -
