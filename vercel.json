@@ -21,7 +21,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' unpkg.com cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; font-src 'self' fonts.gstatic.com unpkg.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self';"
+          "value": "default-src 'self'; script-src 'self' unpkg.com cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com fonts.googleapis.com unpkg.com cdn.jsdelivr.net 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com fonts.gstatic.com unpkg.com cdn.jsdelivr.net; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self';"
         }
       ]
     }
